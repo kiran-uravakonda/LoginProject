@@ -1,7 +1,12 @@
+import Axios from 'axios'
 import {useState} from 'react';
 import { Link } from "react-router-dom";
 function Login() {
-
+      
+        // Axios.post('http://localhost:1000/signup',data})
+        // .then(result=>console.log(result))
+        // .catch((err)=>console.log(err))
+       
     let [value,setValue]=useState({
         email:'',
         password:'',
@@ -22,6 +27,14 @@ function Login() {
     function submitData(event){
    event.preventDefault()
      validate()
+  let requestData={
+    firstName:value.firstName,
+    email:value.email,
+    password:value.password
+  }
+     Axios.post('http://localhost:1000/signup',requestData)
+        .then(result=>console.log(result))
+        .catch((err)=>console.log(err))
     }
 
     function validate(){
@@ -60,6 +73,7 @@ function Login() {
     }
 
   return (
+    <div>
     <div className="main">
      <section className="container-fluid">
   <section className="row justify-content-center">
@@ -77,7 +91,7 @@ function Login() {
           <input type="password" className=" form-control" placeholder="minimum 8 characters" name="password" value={value.password} onChange={updateChange}/>
         </div>
         <div style={{color:"red"}}>{value.passwordErr}</div>
-        <button type="Sign in" className="btn btn-primary btn-block button" onClick={submitData}>Sign in</button>
+        <button type="button" className="btn btn-primary btn-block button" onClick={submitData}>Sign in</button>
         <div className="form-footer">
         <span style={{color:"red",marginLeft:"130px"}}>{value.checkErr}</span>
         <p> Don't have an account? <Link to="/signup">Sign Up</Link></p>
@@ -89,6 +103,7 @@ function Login() {
 
     
 
+    </div>
     </div>
   );
 }

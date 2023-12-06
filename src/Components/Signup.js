@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import {useState} from 'react';
 import { Link } from "react-router-dom";
 function SignUp() {
@@ -24,6 +25,15 @@ function SignUp() {
     function submitData(event){
    event.preventDefault()
      validate()
+     let requestData={
+      firstName:value.firstName,
+      email:value.email,
+      password:value.password
+    }
+    console.log(requestData)
+       Axios.post('http://127.0.0.1:1000/signup',{requestData})
+          .then(result=>console.log(result))
+          .catch((err)=>console.log(err))
     }
 
     function validate(){
@@ -89,7 +99,7 @@ function SignUp() {
           <input type="password" className=" form-control" placeholder="minimum 8 characters" name="password" value={value.password} onChange={updateChange}/>
         </div>
         <div style={{color:"red"}}>{value.passwordErr}</div>
-        <button type="Sign in" className="btn btn-primary btn-block button" onClick={submitData}>Sign Up</button>
+        <button type="button" className="btn btn-primary btn-block button" onClick={submitData}>Sign Up</button>
         <div className="form-footer">
         <span style={{color:"red",marginLeft:"130px"}}>{value.checkErr}</span>
         <p> Already hava account? <Link to="/">Login</Link></p>
