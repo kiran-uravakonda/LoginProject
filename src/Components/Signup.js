@@ -31,9 +31,11 @@ function SignUp() {
       password:value.password
     }
     console.log(requestData)
+    
        Axios.post('http://127.0.0.1:1000/signup',{requestData})
           .then(result=>console.log(result))
           .catch((err)=>console.log(err))
+    
     }
 
     function validate(){

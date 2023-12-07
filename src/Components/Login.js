@@ -1,13 +1,10 @@
 import Axios from 'axios'
 import {useState} from 'react';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+
 function Login() {
-      
-        // Axios.post('http://localhost:1000/signup',data})
-        // .then(result=>console.log(result))
-        // .catch((err)=>console.log(err))
-       
-    let [value,setValue]=useState({
+      const navigate=useNavigate();
+       let [value,setValue]=useState({
         email:'',
         password:'',
         emailErr:'',
@@ -28,11 +25,11 @@ function Login() {
    event.preventDefault()
      validate()
   let requestData={
-    firstName:value.firstName,
     email:value.email,
     password:value.password
   }
-     Axios.post('http://localhost:1000/signup',requestData)
+  console.log(requestData)
+     Axios.post('http://127.0.0.1:1000/login',{requestData})
         .then(result=>console.log(result))
         .catch((err)=>console.log(err))
     }
@@ -42,6 +39,7 @@ function Login() {
       {
         setValue({...value,checkErr:"please enter values"})
       }
+      
       else if(!value.password){
         setValue({...value,passwordErr:"please enter password"})
       }
@@ -55,7 +53,9 @@ function Login() {
         setValue({...value,emailErr:"please enter valid email"})
       }
       else{
-            console.log("success")
+           
+            navigate('/home');
+           
       }
     }
 
