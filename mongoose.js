@@ -1,5 +1,5 @@
 var mongoose=require('mongoose');
-var url="mongodb://localhost:27017/login";
+var url="mongodb://localhost:27017/loginDeatils";
 
 mongoose.connect(url).then((val)=>{
     console.log("connected")
@@ -11,16 +11,18 @@ var mongoSchema=new mongoose.Schema({
 
     firstName:{
         type:String,
-        unique: true
+        require:true
     },
     
     email:{
         type:String,
-        unique: true
+        unique: true,
+        require:true
         
     },
     password:{
         type:String,
+        require:true
     },
    
 })
