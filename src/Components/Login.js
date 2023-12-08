@@ -20,7 +20,11 @@ function Login() {
        
     }
 
-  
+    // let requestData={
+    //   email:value.email,
+    //   password:value.password
+    // }
+    // console.log(requestData)
     function submitData(event){
    event.preventDefault()
      validate()
@@ -28,9 +32,16 @@ function Login() {
     email:value.email,
     password:value.password
   }
-  console.log(requestData)
+  // console.log(requestData)
      Axios.post('http://127.0.0.1:1000/login',{requestData})
-        .then(result=>console.log(result))
+        .then(result=>{
+          if(result.data.password===requestData.password){
+            console.log("welcome to Home Page")
+              // useNavigate('/Home') 
+      
+            
+          }
+        })
         .catch((err)=>console.log(err))
     }
 
@@ -54,7 +65,10 @@ function Login() {
       }
       else{
            
-            navigate('/home');
+            // if(requestData.password!==null){
+            //   console.log(requestData.password)
+            // navigate('/home');
+            // }
            
       }
     }
