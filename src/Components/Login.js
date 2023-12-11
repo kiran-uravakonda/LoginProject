@@ -1,13 +1,16 @@
 import {useState} from 'react';
-import { Link } from "react-router-dom";
-function Login() {
+import { Link,useNavigate} from "react-router-dom";
+import Axios from 'axios';
 
+function Login() {
+var navigate=useNavigate();
     let [value,setValue]=useState({
         email:'',
         password:'',
         emailErr:'',
         passwordErr:'',
-        checkErr:''
+        checkErr:'',
+        validErr:''
     })
  function updateChange(event){
         // console.log(event.target.value.length)
@@ -17,11 +20,35 @@ function Login() {
         })
        
     }
+     
 
+   function Apicall(){
+    let requestData = {
+      email: value.email,
+      password: value.password
+    }
+    Axios.post('http://127.0.0.1:1000/login', { requestData })
+      .then(result => { 
+      
+        if(result.data.password!==requestData.password){
+          // navigate('/Home') 
+        
+          setValue({ ...value, validErr: 'Authentication failed' });
+  
+        }
+        else
+        {
+          navigate('/Home') ;
+          // setValue({ ...value, validErr: 'Authentication failed' });
+        }
+      })
+      .catch((err) => console.log(err))
+    }
   
     function submitData(event){
    event.preventDefault()
      validate()
+     Apicall()
     }
 
     function validate(){
@@ -36,13 +63,13 @@ function Login() {
         setValue({...value,passwordErr:"please enter valid password"})
       }
       else if(!value.email){
-        setValue({...value,emailErr:"please enter email"})
+        setValue({...value,emailErr:"please enter mail"})
       }
       else if(!validateEmail(value.email)){
         setValue({...value,emailErr:"please enter valid email"})
       }
       else{
-            console.log("success")
+           console.log("success")
       }
     }
 
@@ -80,6 +107,7 @@ function Login() {
         <button type="Sign in" className="btn btn-primary btn-block button" onClick={submitData}>Sign in</button>
         <div className="form-footer">
         <span style={{color:"red",marginLeft:"130px"}}>{value.checkErr}</span>
+        <div style={{color:"red"}}>{value.validErr}</div>
         <p> Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </div>
         </form>
